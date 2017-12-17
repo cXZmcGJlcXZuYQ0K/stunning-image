@@ -4,7 +4,12 @@ print("Type the bot's secret token")
 token = input("> ")
 data["token"] = token
 print("Input your id")
+
 ownerid = input("> ")
+
 data["id"] = ownerid # fix to int
+
 dataIO.save_json("bot/storage/userinf.json", data)
+
+print("saved to /bot/storage/userinf.json; DO NOT MODIFY")
 quit() # exits the file
