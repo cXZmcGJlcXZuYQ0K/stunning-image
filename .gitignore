@@ -1,1 +1,7 @@
 bot/storage/userinf.json
+.vscode
+bot/storage/admin
+__pycache__/
+*.pyc
+*.cpython-35.pyc
+bot/discord.log
