@@ -51,12 +51,15 @@ class Admin:
             dictTemp = {"modPerms": addTolist}
             self.datastruct[guild.id] = {}
             self.datastruct[guild.id]["modPerms"] = addTolist
-            await ctx.send(embed=discord.Embed(title="Server Configuration",description="Mention all users that you want to add as moderators.",color=main.maincolor))
+            await ctx.send(embed=discord.Embed(title="Server Configuration",description="Mention all users that you want to add as moderators. Type `none` if you want none currently.",color=main.maincolor))
             msg = await self.bot.wait_for('message', check=check)
             add2 = []
-            for mention in msg.mentions:
-                add2.append(mention.id)
-            self.datastruct[guild.id]["modList"] = add2
+            if msg.content.lower == "none":
+                pass
+            else:
+                for mention in msg.mentions:
+                    add2.append(mention.id)
+                self.datastruct[guild.id]["modList"] = add2
             dataIO.save_json("storage/admin/datastruct.json", self.datastruct)  
             await ctx.send(embed=discord.Embed(title="Configuration Complete!", description="Your server has been set up. use the command ``help server` for other subcommands.",color=main.maincolor))
             
