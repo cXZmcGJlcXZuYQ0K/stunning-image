@@ -4,7 +4,7 @@ import datetime
 from utils.danny.dataIO import dataIO
 from discord.ext import commands
 
-desc = "uchuubranko; cXZmcGJlcXZuYQ0K; Discordian;"
+desc = "uchuubranko; cXZmcGJlcXZuYQ0K; Discordian; discordian.pw"
 
 maincolor = 0xF4601A  # defines the bots favorite color.
 
@@ -14,26 +14,25 @@ bot = commands.Bot(command_prefix="`", description=desc)
 # set up logging as detailed in 1.0.0a docs
 logger = logging.getLogger('discord')
 
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.INFO)
 
 handler = logging.FileHandler(
     filename='log\discord.log', encoding='utf-8', mode='w')
 
 handler.setFormatter(logging.Formatter(
     '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-
 logger.addHandler(handler)
 
-extlist = ["admin"]
-
+extlist = ["admin", "music","lastfm"]
 def __init__():
+    global userinfo
     userinfo = dataIO.load_json("storage/userinf.json")
+
 
 
 @bot.event
 async def on_ready():
     loadExt()
-
     user = bot.get_user(oid)
     # gets current time and pms the owner.
     await user.send("Bot starting at `{} UTC -6`".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
@@ -48,7 +47,7 @@ async def on_ready():
 async def exitb(ctx):
     if ctx.author.id != oid:
         return
-    print("Shutdown request by {}".format(ctx.author.name))
+    logging.info("Shutdown request by {}".format(ctx.author.name))
     bot.logout()
     exit()
 
@@ -61,6 +60,7 @@ async def rel(ctx, module):
         bot.load_extension("ext." + module)
     except Exception as e:
         await ctx.send("An error has occured in reloading {}. Error : {}".format(module,e))
+        logging.error("An error has occured in reloading {}. Error : {}".format(module,e))
     finally:
         await ctx.send("Reloaded module {} correctly.".format(module))
 
@@ -78,12 +78,13 @@ async def info(ctx):
 
 @bot.command()
 async def invite(ctx):
-    await ctx.send("Thank you for wanting to invite to your server! {}".format(discord.utils.oauth_url(bot.user.id)))
+    await ctx.send("Thank you for wanting to invite to your server! \n{}".format(discord.utils.oauth_url(bot.user.id)))
     # creates an invite and sends it
 
 
+
 def getUserInf():
-    return userinfo
+    return userinfo #returns the dictionary userinfo
 
 def loadExt():
     for ext in extlist:

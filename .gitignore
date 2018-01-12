@@ -5,3 +5,6 @@ __pycache__/
 *.pyc
 *.cpython-35.pyc
 bot/discord.log
+.idea
+bot/ext/lastfm.py
+downloads
